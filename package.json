@@ -30,13 +30,13 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "electron": "^35.0.0",
-    "electron-builder": "^26.0.0",
     "tsup": "^8.4.0",
     "typescript": "^5.8.0"
   },
   "dependencies": {
-    "cac": "^6.7.14"
+    "cac": "^6.7.14",
+    "electron": "^35.0.0",
+    "electron-builder": "^26.0.0"
   },
   "build": {
     "appId": "com.ui-fly.app",
