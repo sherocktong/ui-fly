@@ -34,10 +34,9 @@ Options:
 - `--quiet` — Suppress non-error output
 
 Steps:
-1. If the HTML does not exist yet, generate/write it first
-2. Verify the target path exists (file or directory)
-3. Run `ui-fly serve <path>` with the requested options
-4. Report the opened window details or any errors
+1. Ensure the HTML file exists — generate/write it first if needed
+2. ONLY run `ui-fly serve <path>` after the HTML has been written to disk
+3. Report the opened window details or any errors
 
 ### `screenshot`
 Capture a screenshot of a rendered HTML UI.
