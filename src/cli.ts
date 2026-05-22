@@ -108,6 +108,7 @@ if (!process.versions.electron) {
           verbose: flags.verbose,
           quiet: flags.quiet,
         });
+        process.exit(0);
       } catch (err) {
         console.error(err);
         process.exit(1);
@@ -130,6 +131,7 @@ if (!process.versions.electron) {
           verbose: flags.verbose,
           quiet: flags.quiet,
         });
+        process.exit(0);
       } catch (err) {
         console.error(err);
         process.exit(1);
