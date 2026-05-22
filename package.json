@@ -1,0 +1,73 @@
+{
+  "name": "cc-design",
+  "version": "0.1.0",
+  "description": "Lightweight Electron CLI for launching and packaging HTML UIs",
+  "main": "dist/main.js",
+  "bin": {
+    "cc-design": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "tsc --noEmit",
+    "pack:mac": "electron-builder --mac",
+    "pack:win": "electron-builder --win",
+    "pack:all": "electron-builder --mac --win"
+  },
+  "keywords": [
+    "electron",
+    "cli",
+    "ui",
+    "html",
+    "design",
+    "screenshot"
+  ],
+  "author": "Bing Tong",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "electron": "^35.0.0",
+    "electron-builder": "^26.0.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.0"
+  },
+  "dependencies": {
+    "cac": "^6.7.14"
+  },
+  "build": {
+    "appId": "com.cc-design.app",
+    "productName": "cc-design",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "assets/**/*"
+    ],
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    }
+  }
+}
