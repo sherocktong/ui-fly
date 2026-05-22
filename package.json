@@ -1,6 +1,6 @@
 {
-  "name": "uifly",
-  "version": "1.0.2",
+  "name": "ui-fly",
+  "version": "1.0.3",
   "description": "Lightweight Electron CLI for launching and packaging HTML UIs",
   "main": "dist/main.js",
   "bin": {
@@ -39,8 +39,8 @@
     "cac": "^6.7.14"
   },
   "build": {
-    "appId": "com.uifly.app",
-    "productName": "uifly",
+    "appId": "com.ui-fly.app",
+    "productName": "ui-fly",
     "directories": {
       "output": "release"
     },

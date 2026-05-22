@@ -1,4 +1,4 @@
-# uifly
+# ui-fly
 
 Lightweight Electron CLI for launching, screenshotting, and packaging HTML UIs.
 
@@ -7,13 +7,13 @@ A minimalist alternative to heavy design tools — just give it an HTML file and
 ## Install
 
 ```bash
-npm install -g uifly
+npm install -g ui-fly
 ```
 
 Or use directly with `npx`:
 
 ```bash
-npx -p uifly ui-fly serve ./my-ui/index.html
+npx ui-fly serve ./my-ui/index.html
 ```
 
 ## Commands
