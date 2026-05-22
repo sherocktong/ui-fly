@@ -1,6 +1,6 @@
 # ui-fly
 
-Lightweight Electron CLI for launching, screenshotting, and packaging HTML UIs.
+Lightweight Electron CLI for serving and screenshotting HTML UIs.
 
 A minimalist alternative to heavy design tools — just give it an HTML file and it renders it in a native Electron window. No servers, no databases, no complex architecture.
 
@@ -57,21 +57,6 @@ Options:
 - `--selector <selector>` — Capture a specific DOM element
 - `--headless` — Hide the window during capture
 - `--json` — Output result as JSON
-- `--verbose` — Enable verbose logging
-- `--quiet` — Suppress non-error output
-
-### `pack`
-
-Package a UI directory as a standalone Electron app (macOS `.app` / Windows `.exe`).
-
-```bash
-ui-fly pack ./my-ui/ --out ./release --name "MyApp"
-```
-
-Options:
-- `-o, --out <dir>` — Output directory (default: ./release)
-- `-n, --name <name>` — App name (default: ui-fly-app)
-- `--icon <path>` — Path to app icon (.icns or .ico)
 - `--verbose` — Enable verbose logging
 - `--quiet` — Suppress non-error output
 

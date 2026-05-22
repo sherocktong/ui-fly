@@ -6,7 +6,6 @@ import electron from 'electron';
 import cac from 'cac';
 import { serveCommand } from './serve.js';
 import { screenshotCommand } from './screenshot.js';
-import { packCommand } from './pack.js';
 
 function getVersion(): string {
   try {
@@ -105,29 +104,6 @@ if (!process.versions.electron) {
           selector: flags.selector,
           headless: flags.headless,
           json: flags.json,
-          verbose: flags.verbose,
-          quiet: flags.quiet,
-        });
-        process.exit(0);
-      } catch (err) {
-        console.error(err);
-        process.exit(1);
-      }
-    });
-
-  cli
-    .command('pack <entry>', 'Package a UI directory as a standalone Electron app')
-    .option('-o, --out <dir>', 'Output directory', { default: './release' })
-    .option('-n, --name <name>', 'App name', { default: 'ui-fly-app' })
-    .option('--icon <path>', 'Path to app icon (.icns or .ico)')
-    .option('--verbose', 'Enable verbose logging')
-    .option('--quiet', 'Suppress all non-error output')
-    .action(async (entry: string, flags) => {
-      try {
-        await packCommand(entry, {
-          out: flags.out,
-          name: flags.name,
-          icon: flags.icon,
           verbose: flags.verbose,
           quiet: flags.quiet,
         });
