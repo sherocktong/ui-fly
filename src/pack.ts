@@ -38,8 +38,6 @@ export async function packCommand(entry: string, flags: PackFlags): Promise<void
     main: 'main.js',
     dependencies: {
       electron: '^35.0.0',
-    },
-    devDependencies: {
       'electron-builder': '^26.0.0',
     },
     build: {
@@ -100,6 +98,6 @@ app.on('window-all-closed', () => app.quit());
     logger.error('Packaging failed:', err);
     throw err;
   } finally {
-    await rm(tempDir, { recursive: true, force: true });
+    await rm(tempDir, { recursive: true, force: true, maxRetries: 3 });
   }
 }
