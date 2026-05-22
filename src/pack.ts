@@ -59,7 +59,11 @@ export async function packCommand(entry: string, flags: PackFlags): Promise<void
   const electronSrc = resolveElectronPath();
   const electronDest = join(tempDir, 'node_modules', 'electron');
   await mkdir(dirname(electronDest), { recursive: true });
-  await cp(electronSrc, electronDest, { recursive: true, force: true });
+  await cp(electronSrc, electronDest, {
+    recursive: true,
+    force: true,
+    filter: (src) => !src.endsWith('.asar'),
+  });
 
   const electronPkg = JSON.parse(await readFile(join(electronDest, 'package.json'), 'utf-8'));
   const electronVersion = electronPkg.version as string;
