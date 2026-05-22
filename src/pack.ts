@@ -35,8 +35,10 @@ export async function packCommand(entry: string, flags: PackFlags): Promise<void
   const pkg = {
     name: appName,
     version: '1.0.0',
+    description: `${appName} — packaged by ui-fly`,
+    author: 'ui-fly',
     main: 'main.js',
-    dependencies: {
+    devDependencies: {
       electron: '^35.0.0',
       'electron-builder': '^26.0.0',
     },
@@ -45,7 +47,6 @@ export async function packCommand(entry: string, flags: PackFlags): Promise<void
       productName: appName,
       directories: {
         output: resolve(outDir),
-        app: tempDir,
       },
       files: ['main.js', 'content/**/*'],
       mac: {
