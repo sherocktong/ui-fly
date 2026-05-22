@@ -20,13 +20,38 @@ function getVersion(): string {
 
 const cli = cac('ui-fly');
 
+// Fast-path: --version and --help don't need Electron
+const rawArgs = process.argv.slice(2);
+if (!process.versions.electron) {
+  if (rawArgs.includes('-v') || rawArgs.includes('--version') || rawArgs.includes('-V')) {
+    console.log(`${cli.name}/${getVersion()} ${process.platform}-${process.arch} node-${process.version}`);
+    process.exit(0);
+  }
+  if (rawArgs.includes('-h') || rawArgs.includes('--help') || rawArgs.length === 0) {
+    cli.help();
+    cli.version(getVersion());
+    cli.parse();
+    process.exit(0);
+  }
+}
+
 // Respawn under Electron if not already running there
 if (!process.versions.electron) {
+  const isServe = rawArgs[0] === 'serve';
+
   const child = spawn(
     String(electron),
-    [__filename, ...process.argv.slice(2)],
-    { stdio: 'inherit' }
+    [__filename, ...rawArgs],
+    isServe
+      ? { stdio: 'ignore', detached: true }
+      : { stdio: 'inherit' }
   );
+
+  if (isServe) {
+    child.unref();
+    process.exit(0);
+  }
+
   child.on('close', (code) => {
     process.exit(code ?? 0);
   });

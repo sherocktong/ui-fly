@@ -36,6 +36,12 @@ export async function packCommand(entry: string, flags: PackFlags): Promise<void
     name: appName,
     version: '1.0.0',
     main: 'main.js',
+    dependencies: {
+      electron: '^35.0.0',
+    },
+    devDependencies: {
+      'electron-builder': '^26.0.0',
+    },
     build: {
       appId: `com.ui-fly.${appName}`,
       productName: appName,
@@ -77,10 +83,15 @@ app.on('window-all-closed', () => app.quit());
 
   await writeFile(join(tempDir, 'main.js'), mainJs);
 
-  // Run electron-builder
-  const args = ['electron-builder', '--config', join(tempDir, 'package.json')];
+  // Install dependencies so electron-builder can resolve the electron version
+  logger.debug('Running:', 'npm install', 'in', tempDir);
+  await execFileAsync('npm', ['install'], { cwd: tempDir, encoding: 'utf-8' });
 
-  logger.debug('Running:', 'npx', args.join(' '));
+  // Run electron-builder from the temp directory so it reads package.json
+  // with the nested "build" property correctly.
+  const args = ['electron-builder'];
+
+  logger.debug('Running:', 'npx', args.join(' '), 'in', tempDir);
 
   try {
     await execFileAsync('npx', args, { cwd: tempDir, encoding: 'utf-8' });
