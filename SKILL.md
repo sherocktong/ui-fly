@@ -1,21 +1,18 @@
 ---
 name: ui-fly
-description: Auto-build HTML files and render them in an opened Electron UI window using the ui-fly CLI.
+description: Design UIs with AI-generated HTML and render them in an opened Electron window, or pack them into standalone apps.
 ---
 
-Use the `ui-fly` CLI to render HTML UIs in an Electron window, capture screenshots, or package them as standalone desktop apps.
+Use the `ui-fly` CLI to design UIs with AI-generated HTML, preview them live in an Electron window, and package them as standalone desktop apps.
 
 Prerequisites:
 - `ui-fly` must be installed (globally via `npm install -g ui-fly` or available via `npx ui-fly`)
-- The target HTML file or directory must exist
 
-Workflow:
-1. Generate or write the HTML file(s) to disk
-2. Use `ui-fly serve` to open the UI in an Electron window for live preview
-3. Use `ui-fly screenshot` to capture the rendered result
-4. Use `ui-fly pack` to build a standalone desktop app
+## UI Design
 
-Commands:
+1. Create HTML files for UI designs based on user prompts. Use AI agents to generate the HTML, CSS, and any needed assets.
+2. Write the generated HTML file(s) to disk.
+3. ONLY after the HTML files exist on disk, run `ui-fly serve` to launch a GUI for the rendered HTMLs.
 
 ### `serve`
 Launch an HTML file or directory in an Electron window.
@@ -65,6 +62,10 @@ Steps:
 3. Run `ui-fly screenshot <path> --output <path>` with requested options
 4. If `--json` was passed, parse and return the result object
 5. Otherwise, confirm the screenshot file path
+
+## UI Packing
+
+Use `ui-fly pack` to package created HTMLs into a runnable desktop app.
 
 ### `pack`
 Package a UI directory as a standalone Electron app.
