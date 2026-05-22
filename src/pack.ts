@@ -1,5 +1,5 @@
 import { resolve, join, dirname } from 'node:path';
-import { cp, mkdir, writeFile, rm } from 'node:fs/promises';
+import { cp, mkdir, writeFile, rm, readFile } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { createRequire } from 'node:module';
@@ -27,6 +27,16 @@ function resolveElectronBuilder(): string {
   }
 }
 
+function resolveElectronPath(): string {
+  try {
+    return dirname(require2.resolve('electron/package.json'));
+  } catch {
+    throw new Error(
+      'electron not found. Ensure ui-fly was installed with its dependencies (npm install -g ui-fly).'
+    );
+  }
+}
+
 export async function packCommand(entry: string, flags: PackFlags): Promise<void> {
   const logger = new Logger(flags.verbose, flags.quiet);
 
@@ -44,6 +54,16 @@ export async function packCommand(entry: string, flags: PackFlags): Promise<void
   const contentDir = join(tempDir, 'content');
   await cp(path, contentDir, { recursive: true });
 
+  // Copy electron from ui-fly's installation so electron-builder can resolve
+  // the version and access the pre-downloaded binaries.
+  const electronSrc = resolveElectronPath();
+  const electronDest = join(tempDir, 'node_modules', 'electron');
+  await mkdir(dirname(electronDest), { recursive: true });
+  await cp(electronSrc, electronDest, { recursive: true, force: true });
+
+  const electronPkg = JSON.parse(await readFile(join(electronDest, 'package.json'), 'utf-8'));
+  const electronVersion = electronPkg.version as string;
+
   // Write minimal package.json for the pack
   const pkg = {
     name: appName,
@@ -52,7 +72,7 @@ export async function packCommand(entry: string, flags: PackFlags): Promise<void
     author: 'ui-fly',
     main: 'main.js',
     devDependencies: {
-      electron: '^35.0.0',
+      electron: electronVersion,
     },
     build: {
       appId: `com.ui-fly.${appName}`,
