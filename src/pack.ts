@@ -2,9 +2,11 @@ import { resolve, join, dirname } from 'node:path';
 import { cp, mkdir, writeFile, rm } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
+import { createRequire } from 'node:module';
 import { validateEntry, Logger } from './utils.js';
 
 const execFileAsync = promisify(execFile);
+const require2 = createRequire(__filename);
 
 export interface PackFlags {
   out?: string;
@@ -12,6 +14,17 @@ export interface PackFlags {
   icon?: string;
   verbose?: boolean;
   quiet?: boolean;
+}
+
+function resolveElectronBuilder(): string {
+  try {
+    const pkgPath = require2.resolve('electron-builder/package.json');
+    return resolve(dirname(pkgPath), 'cli.js');
+  } catch {
+    throw new Error(
+      'electron-builder not found. Ensure ui-fly was installed with its dependencies (npm install -g ui-fly).'
+    );
+  }
 }
 
 export async function packCommand(entry: string, flags: PackFlags): Promise<void> {
@@ -40,7 +53,6 @@ export async function packCommand(entry: string, flags: PackFlags): Promise<void
     main: 'main.js',
     devDependencies: {
       electron: '^35.0.0',
-      'electron-builder': '^26.0.0',
     },
     build: {
       appId: `com.ui-fly.${appName}`,
@@ -82,18 +94,12 @@ app.on('window-all-closed', () => app.quit());
 
   await writeFile(join(tempDir, 'main.js'), mainJs);
 
-  // Install dependencies so electron-builder can resolve the electron version
-  logger.debug('Running:', 'npm install', 'in', tempDir);
-  await execFileAsync('npm', ['install'], { cwd: tempDir, encoding: 'utf-8' });
+  const electronBuilderPath = resolveElectronBuilder();
 
-  // Run electron-builder from the temp directory so it reads package.json
-  // with the nested "build" property correctly.
-  const args = ['electron-builder'];
-
-  logger.debug('Running:', 'npx', args.join(' '), 'in', tempDir);
+  logger.debug('Running:', electronBuilderPath, 'in', tempDir);
 
   try {
-    await execFileAsync('npx', args, { cwd: tempDir, encoding: 'utf-8' });
+    await execFileAsync('node', [electronBuilderPath], { cwd: tempDir, encoding: 'utf-8' });
     logger.info('Packaging complete:', outDir);
   } catch (err) {
     logger.error('Packaging failed:', err);
