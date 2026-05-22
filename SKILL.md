@@ -1,6 +1,6 @@
 ---
 name: ui-fly
-description: Launch, screenshot, and package HTML UIs using the ui-fly Electron CLI tool.
+description: Auto-build HTML files and render them in an opened Electron UI window using the ui-fly CLI.
 ---
 
 Use the `ui-fly` CLI to render HTML UIs in an Electron window, capture screenshots, or package them as standalone desktop apps.
@@ -8,6 +8,12 @@ Use the `ui-fly` CLI to render HTML UIs in an Electron window, capture screensho
 Prerequisites:
 - `ui-fly` must be installed (globally via `npm install -g ui-fly` or available via `npx ui-fly`)
 - The target HTML file or directory must exist
+
+Workflow:
+1. Generate or write the HTML file(s) to disk
+2. Use `ui-fly serve` to open the UI in an Electron window for live preview
+3. Use `ui-fly screenshot` to capture the rendered result
+4. Use `ui-fly pack` to build a standalone desktop app
 
 Commands:
 
@@ -28,9 +34,10 @@ Options:
 - `--quiet` — Suppress non-error output
 
 Steps:
-1. Verify the target path exists (file or directory)
-2. Run `ui-fly serve <path>` with the requested options
-3. Report the launched window details or any errors
+1. If the HTML does not exist yet, generate/write it first
+2. Verify the target path exists (file or directory)
+3. Run `ui-fly serve <path>` with the requested options
+4. Report the opened window details or any errors
 
 ### `screenshot`
 Capture a screenshot of a rendered HTML UI.
