@@ -19,11 +19,11 @@ export async function packCommand(entry: string, flags: PackFlags): Promise<void
 
   const { path } = await validateEntry(entry);
   const outDir = resolve(flags.out ?? './release');
-  const appName = flags.name ?? 'cc-design-app';
+  const appName = flags.name ?? 'ui-fly-app';
 
   logger.info('Packaging', path, '→', outDir);
 
-  const tempDir = resolve(outDir, '.cc-design-pack-temp');
+  const tempDir = resolve(outDir, '.ui-fly-pack-temp');
   await rm(tempDir, { recursive: true, force: true });
   await mkdir(tempDir, { recursive: true });
 
@@ -37,7 +37,7 @@ export async function packCommand(entry: string, flags: PackFlags): Promise<void
     version: '1.0.0',
     main: 'main.js',
     build: {
-      appId: `com.cc-design.${appName}`,
+      appId: `com.ui-fly.${appName}`,
       productName: appName,
       directories: {
         output: resolve(outDir),

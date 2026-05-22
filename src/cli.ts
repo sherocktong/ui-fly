@@ -18,7 +18,7 @@ function getVersion(): string {
   }
 }
 
-const cli = cac('cc-design');
+const cli = cac('ui-fly');
 
 // Respawn under Electron if not already running there
 if (!process.versions.electron) {
@@ -92,7 +92,7 @@ if (!process.versions.electron) {
   cli
     .command('pack <entry>', 'Package a UI directory as a standalone Electron app')
     .option('-o, --out <dir>', 'Output directory', { default: './release' })
-    .option('-n, --name <name>', 'App name', { default: 'cc-design-app' })
+    .option('-n, --name <name>', 'App name', { default: 'ui-fly-app' })
     .option('--icon <path>', 'Path to app icon (.icns or .ico)')
     .option('--verbose', 'Enable verbose logging')
     .option('--quiet', 'Suppress all non-error output')

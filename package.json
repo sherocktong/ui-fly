@@ -1,10 +1,10 @@
 {
-  "name": "cc-design",
-  "version": "1.0.1",
+  "name": "uifly",
+  "version": "1.0.2",
   "description": "Lightweight Electron CLI for launching and packaging HTML UIs",
   "main": "dist/main.js",
   "bin": {
-    "cc-design": "dist/cli.js"
+    "ui-fly": "dist/cli.js"
   },
   "scripts": {
     "build": "tsup",
@@ -22,6 +22,10 @@
     "design",
     "screenshot"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sherocktong/ui-fly.git"
+  },
   "author": "Bing Tong",
   "license": "MIT",
   "devDependencies": {
@@ -35,8 +39,8 @@
     "cac": "^6.7.14"
   },
   "build": {
-    "appId": "com.cc-design.app",
-    "productName": "cc-design",
+    "appId": "com.uifly.app",
+    "productName": "uifly",
     "directories": {
       "output": "release"
     },

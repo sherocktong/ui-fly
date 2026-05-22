@@ -16,7 +16,7 @@ export function createWindow(options: WindowOptions = {}): BrowserWindow {
   const {
     width = 1280,
     height = 800,
-    title = 'cc-design',
+    title = 'ui-fly',
     fullscreen = false,
     show = true,
     preload = true,

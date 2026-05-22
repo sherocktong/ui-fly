@@ -47,15 +47,15 @@ export class Logger {
   constructor(private verbose: boolean = false, private quiet: boolean = false) {}
 
   info(...args: unknown[]) {
-    if (!this.quiet) console.log('[cc-design]', ...args);
+    if (!this.quiet) console.log('[ui-fly]', ...args);
   }
 
   error(...args: unknown[]) {
-    if (!this.quiet) console.error('[cc-design]', ...args);
+    if (!this.quiet) console.error('[ui-fly]', ...args);
   }
 
   debug(...args: unknown[]) {
-    if (this.verbose && !this.quiet) console.log('[cc-design:debug]', ...args);
+    if (this.verbose && !this.quiet) console.log('[ui-fly:debug]', ...args);
   }
 }
 
