@@ -10,9 +10,44 @@ Prerequisites:
 
 ## UI Design
 
-1. Create HTML files for UI designs based on user prompts. Use AI agents to generate the HTML, CSS, and any needed assets.
-2. Write the generated HTML file(s) to disk.
-3. ONLY after the HTML files exist on disk, run `ui-fly serve` to launch a GUI for the rendered HTMLs.
+### Phase 1: Prompt Analysis
+
+Before generating any HTML, analyze the user's prompt thoroughly.
+
+Steps:
+1. Break the prompt into detailed sub-tasks for analysis. Examples of sub-tasks:
+   - Identify the UI type (dashboard, landing page, form, etc.)
+   - Extract layout requirements (sidebar, grid, responsive breakpoints)
+   - Extract visual style requirements (color scheme, typography, spacing)
+   - Identify interactive elements and state management needs
+   - Identify any asset requirements (icons, images, illustrations)
+   - Define accessibility and usability considerations
+2. Create **at most 3 sub-agents at a time** (like a thread pool) to consume the sub-tasks concurrently.
+   - Assign each sub-agent a focused sub-task.
+   - Wait for all active sub-agents to return before spawning the next batch.
+   - Continue until all sub-tasks are analyzed.
+3. Consolidate all sub-agent findings into a unified design specification.
+
+### Phase 2: HTML Generation
+
+Use the same thread-pool approach to generate the HTML based on the analysis.
+
+Steps:
+1. Break HTML generation into sub-tasks based on the analysis results. Examples:
+   - Generate the HTML skeleton and semantic structure
+   - Generate CSS styles (layout, colors, typography, animations)
+   - Generate JavaScript for interactivity and state management
+   - Generate or reference required assets (SVG icons, placeholder images)
+2. Create **at most 3 sub-agents at a time** to consume the generation sub-tasks concurrently.
+   - Assign each sub-agent a focused generation sub-task.
+   - Wait for all active sub-agents to return before spawning the next batch.
+   - Continue until all generation sub-tasks are complete.
+3. Merge all generated pieces into a single, self-contained HTML file.
+4. Write the final HTML file(s) to disk.
+
+### Phase 3: Launch GUI
+
+ONLY after the HTML files exist on disk, run `ui-fly serve` to launch a GUI for the rendered HTMLs.
 
 ### `serve`
 Launch an HTML file or directory in an Electron window.
@@ -93,3 +128,4 @@ General Rules:
 - If `ui-fly` is not globally available, fall back to `npx ui-fly`
 - Use `--json` for screenshot when the result needs to be parsed programmatically
 - Use `--headless` for screenshots when no visual review is needed
+- Use sub-agents sparingly: spawn at most 3 concurrently, wait for completion before starting the next batch
