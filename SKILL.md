@@ -12,7 +12,7 @@ Prerequisites:
 
 ### Phase 1: Prompt Analysis
 
-Before generating any HTML, analyze the user's prompt thoroughly.
+Before generating any HTML, analyze the user's prompt thoroughly using sub-agents.
 
 Steps:
 1. Break the prompt into detailed sub-tasks for analysis. Examples of sub-tasks:
@@ -22,15 +22,16 @@ Steps:
    - Identify interactive elements and state management needs
    - Identify any asset requirements (icons, images, illustrations)
    - Define accessibility and usability considerations
-2. Create **at most 3 sub-agents at a time** (like a thread pool) to consume the sub-tasks concurrently.
-   - Assign each sub-agent a focused sub-task.
-   - Wait for all active sub-agents to return before spawning the next batch.
+2. Spawn **at most 3 sub-agents at a time** using the `Agent` tool to consume the sub-tasks concurrently.
+   - Launch each sub-agent with a focused analysis task in a single batch (parallel tool calls).
+   - Wait for all active sub-agents to return their results.
+   - Spawn the next batch of up to 3 sub-agents for any remaining sub-tasks.
    - Continue until all sub-tasks are analyzed.
 3. Consolidate all sub-agent findings into a unified design specification.
 
 ### Phase 2: HTML Generation
 
-Use the same thread-pool approach to generate the HTML based on the analysis.
+Use the same sub-agent approach to generate the HTML based on the analysis.
 
 Steps:
 1. Break HTML generation into sub-tasks based on the analysis results. Examples:
@@ -38,9 +39,10 @@ Steps:
    - Generate CSS styles (layout, colors, typography, animations)
    - Generate JavaScript for interactivity and state management
    - Generate or reference required assets (SVG icons, placeholder images)
-2. Create **at most 3 sub-agents at a time** to consume the generation sub-tasks concurrently.
-   - Assign each sub-agent a focused generation sub-task.
-   - Wait for all active sub-agents to return before spawning the next batch.
+2. Spawn **at most 3 sub-agents at a time** using the `Agent` tool to consume the generation sub-tasks concurrently.
+   - Launch each sub-agent with a focused generation task in a single batch (parallel tool calls).
+   - Wait for all active sub-agents to return their results.
+   - Spawn the next batch of up to 3 sub-agents for any remaining sub-tasks.
    - Continue until all generation sub-tasks are complete.
 3. Merge all generated pieces into a single, self-contained HTML file.
 4. Write the final HTML file(s) to disk.
@@ -128,4 +130,5 @@ General Rules:
 - If `ui-fly` is not globally available, fall back to `npx ui-fly`
 - Use `--json` for screenshot when the result needs to be parsed programmatically
 - Use `--headless` for screenshots when no visual review is needed
-- Use sub-agents sparingly: spawn at most 3 concurrently, wait for completion before starting the next batch
+- Use the `Agent` tool to spawn sub-agents for concurrent work
+- Spawn at most 3 sub-agents concurrently; wait for completion before starting the next batch
