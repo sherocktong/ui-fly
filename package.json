@@ -1,6 +1,6 @@
 {
   "name": "ui-fly",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Lightweight Electron CLI for serving and screenshotting HTML UIs",
   "main": "dist/main.js",
   "bin": {
