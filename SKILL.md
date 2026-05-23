@@ -22,12 +22,15 @@ Steps:
    - Identify interactive elements and state management needs
    - Identify any asset requirements (icons, images, illustrations)
    - Define accessibility and usability considerations
-2. Spawn **at most 3 sub-agents at a time** using the `Agent` tool to consume the sub-tasks concurrently.
+2. Use `TaskCreate` to register each sub-task on a shared task list, marking them `pending`.
+3. Spawn **at most 3 sub-agents at a time** using the `Agent` tool to consume the sub-tasks concurrently.
+   - Before launching, update each spawned sub-task to `in_progress` via `TaskUpdate`.
    - Launch each sub-agent with a focused analysis task in a single batch (parallel tool calls).
    - Wait for all active sub-agents to return their results.
+   - As each sub-agent returns, mark its task `completed` via `TaskUpdate`.
    - Spawn the next batch of up to 3 sub-agents for any remaining sub-tasks.
    - Continue until all sub-tasks are analyzed.
-3. Consolidate all sub-agent findings into a unified design specification.
+4. Consolidate all sub-agent findings into a unified design specification.
 
 ### Phase 2: HTML Generation
 
@@ -39,13 +42,26 @@ Steps:
    - Generate CSS styles (layout, colors, typography, animations)
    - Generate JavaScript for interactivity and state management
    - Generate or reference required assets (SVG icons, placeholder images)
-2. Spawn **at most 3 sub-agents at a time** using the `Agent` tool to consume the generation sub-tasks concurrently.
+2. Use `TaskCreate` to register each generation sub-task on a shared task list, marking them `pending`.
+3. Spawn **at most 3 sub-agents at a time** using the `Agent` tool to consume the generation sub-tasks concurrently.
+   - Before launching, update each spawned sub-task to `in_progress` via `TaskUpdate`.
    - Launch each sub-agent with a focused generation task in a single batch (parallel tool calls).
    - Wait for all active sub-agents to return their results.
+   - As each sub-agent returns, mark its task `completed` via `TaskUpdate`.
    - Spawn the next batch of up to 3 sub-agents for any remaining sub-tasks.
    - Continue until all generation sub-tasks are complete.
-3. Merge all generated pieces into a single, self-contained HTML file.
-4. Write the final HTML file(s) to disk.
+4. Merge all generated pieces into a single, self-contained HTML file.
+5. **One HTML file per designed page** — each distinct page design must be written as its own standalone HTML file. Do not split a single page across multiple files, and do not combine multiple pages into one file.
+6. The primary HTML entry point **must** be named `index.html`.
+7. Write the final HTML file(s) to disk.
+
+**Plan Mode Requirement:**
+- **Always enter plan mode** before generating HTML, regardless of whether legacy files exist.
+- In plan mode, present the generation approach (file structure, naming, style direction) for user approval before proceeding.
+- If `index.html` already exists at the target path, additionally ask the user:
+  - **Overwrite** — ignore the existing file and generate a new one.
+  - **Analyze first** — read the existing file, incorporate its structure/style into the generation plan, then produce the new HTML.
+- Do not proceed with generation until the user has approved the plan and chosen an option.
 
 ### Phase 3: Launch GUI
 
@@ -96,9 +112,10 @@ Options:
 Steps:
 1. Verify the target HTML path exists
 2. Ensure the output directory exists (create if needed)
-3. Run `ui-fly screenshot <path> --output <path>` with requested options
-4. If `--json` was passed, parse and return the result object
-5. Otherwise, confirm the screenshot file path
+3. Default the output directory to `.claude/cache/screenshots` when no explicit `--output` path is provided.
+4. Run `ui-fly screenshot <path> --output <path>` with requested options.
+5. If `--json` was passed, parse and return the result object.
+6. Otherwise, confirm the screenshot file path.
 
 ## UI Packing
 

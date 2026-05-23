@@ -60,6 +60,19 @@ Options:
 - `--verbose` — Enable verbose logging
 - `--quiet` — Suppress non-error output
 
+## Claude Code Skill
+
+To use `ui-fly` as a Claude Code skill, copy `SKILL.md` to your project's `.claude/skills/` directory (create it if needed):
+
+```bash
+mkdir -p .claude/skills
+cp /path/to/ui-fly/SKILL.md .claude/skills/ui-fly.md
+```
+
+Or copy it to your global skills directory at `~/.claude/skills/`.
+
+Once installed, the skill is available in Claude Code sessions.
+
 ## Usage from a Claude Code Skill
 
 `ui-fly` is designed to be called from skills via shell commands:

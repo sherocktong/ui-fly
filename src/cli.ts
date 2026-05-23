@@ -20,14 +20,18 @@ function getVersion(): string {
 const cli = cac('ui-fly');
 
 cli
-  .command('serve <entry>', 'Launch an HTML file or directory in an Electron window')
+  .command('serve [entry]', 'Launch an HTML file or directory in an Electron window')
   .option('--width <width>', 'Window width', { default: 1280 })
   .option('--height <height>', 'Window height', { default: 800 })
   .option('--title <title>', 'Window title')
   .option('--fullscreen', 'Open in fullscreen mode')
   .option('--verbose', 'Enable verbose logging')
   .option('--quiet', 'Suppress all non-error output')
-  .action(async (entry: string, flags) => {
+  .action(async (entry: string | undefined, flags) => {
+    if (!entry) {
+      console.error(new Error('No entry file or folder provided for serve command'));
+      process.exit(1);
+    }
     try {
       await serveCommand(entry, {
         width: parseInt(flags.width, 10),

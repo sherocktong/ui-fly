@@ -16,6 +16,12 @@ export async function validateEntry(input: string): Promise<{ type: 'file' | 'di
 
   const s = await stat(absolute);
   if (s.isDirectory()) {
+    const indexPath = resolve(absolute, 'index.html');
+    try {
+      await access(indexPath);
+    } catch {
+      throw new Error(`Directory does not contain an index.html file: ${absolute}`);
+    }
     return { type: 'directory', path: absolute };
   }
 
