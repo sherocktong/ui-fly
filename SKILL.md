@@ -1,9 +1,9 @@
 ---
 name: ui-fly
-description: Design UIs with AI-generated HTML and render them in an opened Electron window, or pack them into standalone apps.
+description: Design UIs with AI-generated HTML and render them in an opened Electron window.
 ---
 
-Use the `ui-fly` CLI to design UIs with AI-generated HTML, preview them live in an Electron window, and package them as standalone desktop apps.
+Use the `ui-fly` CLI to design UIs with AI-generated HTML and preview them live in an Electron window.
 
 Prerequisites:
 - `ui-fly` must be installed (globally via `npm install -g ui-fly` or available via `npx ui-fly`)
@@ -116,31 +116,6 @@ Steps:
 4. Run `ui-fly screenshot <path> --output <path>` with requested options.
 5. If `--json` was passed, parse and return the result object.
 6. Otherwise, confirm the screenshot file path.
-
-## UI Packing
-
-Use `ui-fly pack` to package created HTMLs into a runnable desktop app.
-
-### `pack`
-Package a UI directory as a standalone Electron app.
-
-Usage:
-```bash
-ui-fly pack <directory> [options]
-```
-
-Options:
-- `-o, --out <dir>` — Output directory (default: ./release)
-- `-n, --name <name>` — App name (default: ui-fly-app)
-- `--icon <path>` — Path to app icon (.icns or .ico)
-- `--verbose` — Enable verbose logging
-- `--quiet` — Suppress non-error output
-
-Steps:
-1. Verify the target directory exists and contains an HTML entry point
-2. Ensure the output directory exists (create if needed)
-3. Run `ui-fly pack <directory>` with requested options
-4. Report the packaged app path or any errors
 
 General Rules:
 - Always validate that the target path exists before running any command
